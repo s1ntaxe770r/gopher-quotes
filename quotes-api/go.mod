@@ -3,6 +3,7 @@ module github.com/s1ntaxe770r/gopher-quotes
 go 1.17
 
 require (
+	github.com/gorilla/mux v1.8.0
 	github.com/sirupsen/logrus v1.8.1
 	gorm.io/driver/postgres v1.3.5
 	gorm.io/gorm v1.23.5
