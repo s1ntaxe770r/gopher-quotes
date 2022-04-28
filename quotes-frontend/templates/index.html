@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Gopher quotes ✍🏼</title>
+</head>
+<body class="bg-zinc-900">
+    <h2 class="text-3xl text-amber-50 font-mono text-center mt-4 "> Inspiring insights from gophers all over the world 🌍 </h1>
+    <div class="grid grid-cols-3 gap-4 mt-10">
+        {% for quote in quotes %}
+        <div class="container bg-rose-800  rounded-lg">
+            <p class="text-center text-rose-100 text-3xl font-medium">{{ quote.title }}</p>
+            <p class="text-center text-xl mt-2 text-rose-50 font-thin pb-3">{{ quote.body }}</p>
+        </div>
+        {% endfor %}
+        
+    </div>
+    <div class="flex h-screen"></div>
+    <footer class="text-center text-rose-700 text-2xl font-thin">made with 💖 by @s1ntaxe770r</footer>
+</div>
+</body>
+</html>
