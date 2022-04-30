@@ -17,6 +17,3 @@ def GetQuotes(url) -> List[str]:
 def index():
     quotes = GetQuotes(api_url)
     return render_template("index.html",quotes=quotes)
-
-if __name__=="__main__":
-    app.run(debug=True)
