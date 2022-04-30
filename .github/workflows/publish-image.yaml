@@ -36,7 +36,6 @@ jobs:
         run: docker build ./quote-stats --file Dockerfile --tag $GOPHER_QUOTES_STATS
       
 
-
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
