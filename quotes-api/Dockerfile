@@ -1,5 +1,8 @@
 FROM golang:latest as builder
 
+LABEL org.opencontainers.image.source https://github.com/s1ntaxe770r/gopher-quotes
+
+
 RUN mkdir /app
 
 WORKDIR /app

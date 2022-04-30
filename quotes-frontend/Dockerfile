@@ -1,5 +1,8 @@
 FROM python:3.9.1-slim 
 
+LABEL org.opencontainers.image.source https://github.com/s1ntaxe770r/gopher-quotes
+
+
 WORKDIR /app 
 
 ENV PYTHONDONTWRITEBYTECODE 1
