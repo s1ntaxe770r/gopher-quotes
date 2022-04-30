@@ -1,0 +1,90 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - master
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+env:
+  # Setup imagenames
+  GOPHER_QUOTES_API: gopher-quotes-api
+  GOPHER_QUOTES_STATS: gopher-quotes-stats
+  GOPHER_QUOTES_FRONTEND: gopher-quotes-frontend
+jobs:
+
+  push:
+    # Ensure test job passes before pushing image.
+    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build API
+        run: docker build ./quotes-api --file Dockerfile --tag $GOPHER_QUOTES_API
+
+      - name: Build Frontend 
+        run: docker build ./quotes-frontend --file Dockerfile --tag $GOPHER_QUOTES_FRONTEND
+
+      - name: Build Frontend 
+        run: docker build ./quote-stats --file Dockerfile --tag $GOPHER_QUOTES_STATS
+      
+
+
+      - name: Log into GitHub Container Registry
+      # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
+        run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push API to GitHub Container Registry
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$GOPHER_QUOTES_API
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $GOPHER_QUOTES_API $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+      
+      - name: Push Stats dashboard to GitHub Container Registry
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$GOPHER_QUOTES_STATS
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $GOPHER_QUOTES_STATS $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+      
+      - name: Push Frontend to GitHub Container Registry
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$GOPHER_QUOTES_FRONTEND
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $GOPHER_QUOTES_FRONTEND $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
