@@ -21,7 +21,7 @@ func NewDB(dburi string) *DB {
 			"reason": err.Error(),
 		}).Panic("error connecting to database")
 	}
-	err = conn.AutoMigrate(models.Quote{})
+	err = conn.AutoMigrate(models.Quote{}, models.QuoteData{})
 	if err != nil {
 		logrus.Infof("unable to migrate models, reason: %s", err.Error())
 	}
@@ -39,4 +39,29 @@ func (db DB) Get() ([]models.Quote, error) {
 	var quotes []models.Quote
 	result := db.conn.Find(&quotes)
 	return quotes, result.Error
+}
+
+func (db DB) UpdateStats(lq models.QuoteData) {
+	res := db.conn.First(&models.QuoteData{})
+	if res.RowsAffected == 1 {
+		err := db.conn.Model(&lq).Update("last_quote", lq.LastQuote).Error
+		if err != nil {
+			logrus.Errorf("failed to update quote data, %s", err.Error())
+		}
+		return
+	}
+	err := db.conn.Create(&lq).Error
+	if err != nil {
+		logrus.Errorf("failed to insert quote data,  %s", err.Error())
+	}
+
+}
+
+func (db DB) GetLastQuote() models.QuoteData {
+	var qd models.QuoteData
+	err := db.conn.First(&qd).Error
+	if err != nil {
+		logrus.Errorf("failed to retrieve lastq quote, reason: %s", err.Error())
+	}
+	return qd
 }
