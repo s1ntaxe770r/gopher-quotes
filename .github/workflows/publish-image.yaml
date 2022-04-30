@@ -21,13 +21,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build API
-        run: docker build ./quotes-api --file Dockerfile --tag $GOPHER_QUOTES_API
+        run: cd quotes-api && docker build . --file Dockerfile --tag $GOPHER_QUOTES_API
 
       - name: Build Frontend 
-        run: docker build ./quotes-frontend --file Dockerfile --tag $GOPHER_QUOTES_FRONTEND
+        run: cd quotes-frontend && docker build . --file Dockerfile --tag $GOPHER_QUOTES_FRONTEND
 
       - name: Build Frontend 
-        run: docker build ./quote-stats --file Dockerfile --tag $GOPHER_QUOTES_STATS
+        run: cd quote-stats && docker build . --file Dockerfile --tag $GOPHER_QUOTES_STATS
       
 
       - name: Log into GitHub Container Registry
