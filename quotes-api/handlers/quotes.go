@@ -41,6 +41,9 @@ func (qh *QuotesHandler) CreateQuote(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "unable to create quote", http.StatusBadRequest)
 		return
 	}
+	quotebytes, _ := json.Marshal(quote)
+	lq := models.QuoteData{Id: 1, LastQuote: quotebytes}
+	qh.db.UpdateStats(lq)
 	rw.Header().Set("Content-Type", "application/json")
 	rw.WriteHeader(http.StatusOK)
 	json.NewEncoder(rw).Encode(quote)
