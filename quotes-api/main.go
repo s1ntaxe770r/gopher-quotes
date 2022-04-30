@@ -17,6 +17,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/create", h.CreateQuote).Methods("POST")
 	r.HandleFunc("/quotes", h.GetQuotes).Methods("GET")
+	r.HandleFunc("/stats",h.GetStats).Methods("GET")
 	r.HandleFunc("/health", handlers.HealthHandler).Methods("GET")
 	logrus.Info("Starting quotes api on 8080")
 	logrus.Fatal(http.ListenAndServe(":8080", r))
