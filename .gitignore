@@ -11,6 +11,12 @@ quotes-frontend/.env
 quotes-frontend/__pycache__
 quotes-frontend/*.pyc
 quotes-frontend/__pycache__/
+quotes-stats/.DS_Store
+quotes-stats/env/
+quotes-stats/.env
+quotes-stats/__pycache__
+quotes-stats/*.pyc
+quotes-stats/__pycache__/
 # Test binary, built with `go test -c`
 *.test
 .env
