@@ -38,3 +38,29 @@ Now you can
 ```bash
 kubectl apply -f deployments/k8s
 ```
+
+
+## API endpoints 
+
+The gopher quotes API exposes the two enpoints 
+
+| METHOD | ENDPOINT |   
+|--------|----------|
+| GET    | /quotes  |  
+| POST   | /create  |  
+| GET    | stats    |   
+
+## Creating a quote
+
+```bash
+curl -d '{"title":"friendly reminder","body":"what you see is not what i get"}' -H "Content-Type: application/json" http://localhost:8080/create
+```
+
+## Sample Response
+
+```json
+{
+  "title": "friendly reminder",
+  "body": "what you see is not what i get"
+}
+```
