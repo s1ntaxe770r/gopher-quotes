@@ -26,3 +26,15 @@ Starting the service is as easy as:
 docker-compose up
 ```
 
+## Setup using Kubernetes 
+
+if you're into that kubernetes thing , I have provided some manifests in the deployments/k8s directory. Edit the following lines in `ingress.yaml` 
+
+```yaml
+ - host: "yourhostordomainname"
+```
+Now you can
+
+```bash
+kubectl apply -f deployments/k8s
+```
