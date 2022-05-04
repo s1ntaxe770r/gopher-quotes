@@ -22,6 +22,6 @@ RUN apk add --no-cache ca-certificates
 COPY --from=builder /app/server /app/server 
 
 
-EXPOSE 8000
+EXPOSE 8080
 
 ENTRYPOINT ["/app/server"]
