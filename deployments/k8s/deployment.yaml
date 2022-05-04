@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gopher-quotes-frontend
+spec:
+  selector:
+    matchLabels:
+      app:  gopher-quotes-frontend
+  template:
+    metadata:
+      labels:
+        app: gopher-quotes
+    spec:
+      containers:
+      - name:  gopher-quotes-frontend
+        image: ghcr.io/s1ntaxe770r/gopher-quotes-frontend:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        imagePullPolicy: Always
+        env:
+        - name: "QUOTES_API_URL"
+          value: http://gopher-quotes-api-svc/quotes
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gopher-quotes-api
+spec:
+  selector:
+    matchLabels:
+      app: gopher-quotes-api
+  template:
+    metadata:
+      labels:
+        app: gopher-quotes-api
+    spec:
+      containers:
+      - name:  gopher-quotes-api
+        image: ghcr.io/s1ntaxe770r/gopher-quotes-api:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        imagePullPolicy: Always
+        env:
+        - name: "DB_URI"
+          value: postgresql://rootgopher:gophersbecool@postgres:5432
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gopher-quote-stats
+spec:
+  selector:
+    matchLabels:
+      app: gopher-quotes 
+  template:
+    metadata:
+      labels:
+        app: gopher-quote-stats
+    spec:
+      containers:
+      - name:  gopher-quotes-stats
+        image: ghcr.io/s1ntaxe770r/gopher-quotes-stats:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        imagePullPolicy: Always
+        env:
+        - name: "QUOTES_API_URL"
+          value: http://gopher-quotes-api-svc/stats
+        ports:
+        - containerPort: 8080
