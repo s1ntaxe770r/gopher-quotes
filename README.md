@@ -48,7 +48,7 @@ The gopher quotes API exposes the two enpoints
 |--------|----------|
 | GET    | /quotes  |  
 | POST   | /create  |  
-| GET    | stats    |   
+| GET    | /stats    |   
 
 ## Creating a quote
 
