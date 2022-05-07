@@ -1,27 +1,17 @@
 FROM golang:latest as builder
 
-LABEL org.opencontainers.image.source https://github.com/s1ntaxe770r/gopher-quotes
-
-
-RUN mkdir /app
-
 WORKDIR /app
+COPY ./go.mod .
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api
 
-COPY go.mod .
-
-RUN go mod download 
-
-COPY . . 
-
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server
-
-FROM alpine 
+FROM alpine
 
 RUN apk add --no-cache ca-certificates
 
-COPY --from=builder /app/server /app/server 
-
+COPY --from=builder /app/api /api
 
 EXPOSE 8080
 
-ENTRYPOINT ["/app/server"]
+ENTRYPOINT ["/api"]
