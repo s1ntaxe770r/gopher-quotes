@@ -19,7 +19,7 @@ func NewDB(dburi string) *DB {
 		logrus.WithFields(logrus.Fields{
 			"msg":    "unable to connect to database",
 			"reason": err.Error(),
-		}).Panic("error connecting to database")
+		}).Error("error connecting to database")
 	}
 	err = conn.AutoMigrate(models.Quote{}, models.QuoteData{})
 	if err != nil {
