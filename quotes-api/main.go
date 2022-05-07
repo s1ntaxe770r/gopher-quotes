@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 
@@ -19,7 +20,7 @@ func main() {
 	r.HandleFunc("/quotes", h.GetQuotes).Methods("GET")
 	r.HandleFunc("/stats",h.GetStats).Methods("GET")
 	r.HandleFunc("/health", handlers.HealthHandler).Methods("GET")
-	logrus.Info("Starting quotes api on 8080")
-	logrus.Fatal(http.ListenAndServe(":8080", r))
+	log.Println("Starting quotes api on 8080")
+	logrus.Info(http.ListenAndServe(":8080", r))
 
 }
