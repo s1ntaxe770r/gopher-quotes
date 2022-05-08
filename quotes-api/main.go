@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/s1ntaxe770r/gopher-quotes/handlers"
@@ -13,12 +11,7 @@ import (
 )
 
 func main() {
-	host := os.Getenv("DB_HOST")
-	dbuser := os.Getenv("DB_USER")
-	dbpass := os.Getenv("DB_PASS")
-
-	db_uri := fmt.Sprintf("host=%s user=%s password=%s dbname=quotes port=5432 sslmode=disable", host, dbuser, dbpass)
-	db := db.NewDB(db_uri)
+	db := db.NewDB()
 	h := handlers.NewQoutesHandler(db)
 	r := mux.NewRouter()
 	r.HandleFunc("/create", h.CreateQuote).Methods("POST")
