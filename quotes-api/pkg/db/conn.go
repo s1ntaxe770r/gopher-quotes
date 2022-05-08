@@ -3,7 +3,7 @@ package db
 import (
 	"github.com/s1ntaxe770r/gopher-quotes/pkg/models"
 	"github.com/sirupsen/logrus"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -13,8 +13,8 @@ type DB struct {
 }
 
 // NewDB returns a new instance of DB
-func NewDB(dburi string) *DB {
-	conn, err := gorm.Open(postgres.Open(dburi), &gorm.Config{})
+func NewDB() *DB {
+	conn, err := gorm.Open(sqlite.Open("quotes.db"), &gorm.Config{})
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
 			"msg":    "unable to connect to database",
