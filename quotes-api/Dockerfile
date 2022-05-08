@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./go.mod .
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o api
 
 FROM alpine
 
