@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE  8080
+EXPOSE  4040
 # start server with 4 workers 
 
-CMD ["gunicorn","-w", "4", "--log-level","info", "main:app", "-b", "0.0.0.0:8080"]
+CMD ["gunicorn","-w", "4", "--log-level","info", "main:app", "-b", "0.0.0.0:4040"]
