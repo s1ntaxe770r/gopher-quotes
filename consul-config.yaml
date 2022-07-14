@@ -1,0 +1,11 @@
+global:
+  datacenter: civo-lon1
+  enabled: true
+
+
+connectInject:
+  enabled: true
+  default: false
+
+controller:
+  enabled: true
