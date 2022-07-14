@@ -18,4 +18,4 @@ COPY . .
 EXPOSE  8080
 # start server with 4 workers 
 
-CMD ["gunicorn","-w", "4", "--log-level","info", "main:app", "-b", "0.0.0.0:8080"]
+CMD ["gunicorn","-w", "4", "--log-level","info", "main:app", "-b", "0.0.0.0:8081"]
