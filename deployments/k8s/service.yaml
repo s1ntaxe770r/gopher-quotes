@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gopher-quotes-api-svc
+  name: gopher-quotes-api
 spec:
   selector:
     app: gopher-quotes-api
@@ -13,23 +13,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gopher-quotes-frontend-svc
+  name: gopher-quotes-frontend
 spec:
   selector:
     app: gopher-quotes-frontend
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 4040
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: gopher-quote-stats-svc
+  name: gopher-quote-stats
 spec:
   selector:
     app: gopher-quote-stats
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 8081

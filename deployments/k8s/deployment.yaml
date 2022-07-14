@@ -5,11 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app:  gopher-quotes-frontend
+      app: gopher-quotes-frontend
   template:
     metadata:
       labels:
-        app: gopher-quotes
+        app: gopher-quotes-frontend
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/connect-service-upstreams: 'gopher-quotes-api:8080'
     spec:
       containers:
       - name:  gopher-quotes-frontend
@@ -21,9 +24,9 @@ spec:
         imagePullPolicy: Always
         env:
         - name: "QUOTES_API_URL"
-          value: http://gopher-quotes-api-svc/quotes
+          value: http://localhost:8080/quotes
         ports:
-        - containerPort: 8080
+        - containerPort: 4040
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,6 +40,8 @@ spec:
     metadata:
       labels:
         app: gopher-quotes-api
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
     spec:
       containers:
       - name:  gopher-quotes-api
@@ -60,11 +65,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: gopher-quotes 
+      app: gopher-quote-stats 
   template:
     metadata:
       labels:
         app: gopher-quote-stats
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/connect-service-upstreams: 'gopher-quotes-api:8080'
     spec:
       containers:
       - name:  gopher-quotes-stats
@@ -76,6 +84,6 @@ spec:
         imagePullPolicy: Always
         env:
         - name: "QUOTES_API_URL"
-          value: http://gopher-quotes-api-svc/stats
+          value: http://localhost:8080/stats
         ports:
-        - containerPort: 8080
+        - containerPort: 8081

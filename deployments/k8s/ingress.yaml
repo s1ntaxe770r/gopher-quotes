@@ -7,14 +7,14 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: ""
+  - host: "3ac0ded5-8263-4bac-b68b-9df033c7ee44.k8s.civo.com"
     http:
       paths:
-      - path: /
+      - path: /quotes
         pathType: Exact
         backend:
           service:
-            name: gopher-quotes-frontend-svc
+            name: gopher-quotes-frontend
             port:
               number: 80
 
